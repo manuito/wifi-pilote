@@ -1,10 +1,15 @@
 #define BUFFPIXEL 20
 
+#define SCREEN_WIDTH 160
+#define SCREEN_HEIGHT 128
+
 void setupScreen(){
   tft.fillScreen(ST77XX_RED);
   delay(100);
   tft.fillScreen(ST77XX_BLUE);
   delay(100);
+  tft.setRotation(1);
+  tft.setTextWrap(false);
   tft.fillScreen(ST77XX_BLACK);
 }
 
@@ -118,22 +123,72 @@ void bmpDraw(char *filename, uint8_t x, uint16_t y) {
   if(!goodBmp) Serial.println(F("BMP format not recognized."));
 }
 
+void eraseLine(int lineNum){
+  tft.fillRect(0, (lineNum * 10) + 2, SCREEN_WIDTH, 10, ST77XX_BLACK);
+}
+
+void printHr(int lineNum){
+  eraseLine(lineNum);
+  tft.drawLine(0, (lineNum * 10) + 6, SCREEN_WIDTH, (lineNum * 10) + 6, ST77XX_WHITE);
+}
+
+void printHeader(String text){
+  tft.fillRect(0, 0, SCREEN_WIDTH, 13, ST77XX_WHITE);
+  tft.setCursor(3, 3);
+  tft.setTextColor(ST77XX_BLACK);
+  tft.setTextSize(1);
+  tft.println(text);
+  // Erase also page
+  tft.fillRect(0, 14, SCREEN_WIDTH, 120, ST77XX_BLACK);
+}
+
+void printBottom(String text){
+  tft.fillRect(0, 114, SCREEN_WIDTH, 128, ST77XX_BLACK);
+  tft.drawLine(0, 114, SCREEN_WIDTH, 114, ST77XX_WHITE);
+  tft.setCursor(8, 117);
+  tft.setTextColor(ST77XX_WHITE);
+  tft.setTextSize(1);
+  tft.println(text);
+}
+
+void printSelectLine(int lineNum, String text, bool select){
+  if(select){
+    int pos = lineNum * 10;
+    tft.fillRect(0, pos + 2, SCREEN_WIDTH, 10, ST77XX_YELLOW);
+    tft.setCursor(3, pos + 3);
+    tft.setTextColor(ST77XX_BLACK);
+    tft.setTextSize(1);
+    tft.println(text);
+  } else {
+    printLine(lineNum, text);
+  }
+}
+
 void printLine(int lineNum, String text){
-  tft.setRotation(1);
-  tft.setTextWrap(false);
+  eraseLine(lineNum);
   tft.setCursor(3, (lineNum * 10) + 3);
   tft.setTextColor(ST77XX_WHITE);
   tft.setTextSize(1);
   tft.println(text);
 }
 
-void printButton(int but){
-  tft.setRotation(1);
-  tft.setTextWrap(false);
-  tft.fillScreen(ST77XX_BLACK);
-  tft.setCursor(3, 13);
-  tft.setTextColor(ST77XX_RED);
-  tft.setTextSize(1);
-  tft.print("button :");
-  tft.println(but);
+void printLine(int lineNum, String text, String otherText){
+  String line = text;
+  line.concat(otherText);
+  printLine(lineNum, line);
+}
+
+void printLine(int lineNum, String text, String otherText, String otherOtherText){
+  String line = text;
+  line.concat(otherText);
+  line.concat(otherOtherText);
+  printLine(lineNum, line);
+}
+
+void printLine(int lineNum, String text, String otherText, String otherOtherText, String otherOtherOtherText){
+  String line = text;
+  line.concat(otherText);
+  line.concat(otherOtherText);
+  line.concat(otherOtherOtherText);
+  printLine(lineNum, line);
 }

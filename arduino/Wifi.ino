@@ -24,7 +24,7 @@ void handleRoot() {
   int hr = min / 60;
 
   // Write Web page
-  snprintf ( temp, 400, WEB_PAGE, activeButton, hr, min % 60, sec % 60 );
+  snprintf ( temp, 400, WEB_PAGE, 0, hr, min % 60, sec % 60 );
   
   server.send ( 200, "text/html", temp );
 }
@@ -77,9 +77,6 @@ void setupWifi () {
   server.onNotFound ( handleNotFound );
   server.begin();
   Serial.println ( "HTTP server started" );
-
-  printLine(0, "Wifi is ON. IP Address :");
-  printLine(1, localIp.toString());
 }
 
 void loopWifi () {

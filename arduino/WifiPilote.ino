@@ -27,22 +27,24 @@
 int LED_PIN = 10;
 
 // BUTTON PINS
-int BUTT_VALID_PIN = 16;
+int BUTT_VALID_PIN = 4;
 int BUTT_LEFT_PIN = 5;
-int BUTT_RIGHT_PIN = 4;
+int BUTT_RIGHT_PIN = 16;
 
 // Screen init
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS_PIN, TFT_DC_PIN, TFT_RST_PIN);
 
 // Wifi params
-const char *ssid = "xxxxxx"; // Need to load it from a file in SD Card
-const char *password = "xxxxxx"; // Need to load it from a file in SD Card
+const char *ssid = "XXXXX";
+const char *password = "xxxxx";
 
 // Active Wifi IP
 IPAddress localIp;
 
-// Active button
-int activeButton = 0;
+// States for the 3 buttons
+bool butMenuActive = false;
+bool butLeftActive = false;
+bool butRightActive = false;
 
 void setup(void) {
   Serial.begin(9600);
@@ -67,39 +69,37 @@ void setup(void) {
 
   // Use this initializer if you're using a 1.8" TFT
   tft.initR(INITR_BLACKTAB);
-
-  setupScreen();
-
-  setupFiles();
   
+  setupFiles();
   setupWifi();
+  setupScreen();
 }
 
 void loop() {
+  controlButtons();
+  loopWifi();
+  processPages();
+}
 
-  activeButton = 0;
-    
+void controlButtons(){ 
   if (digitalRead(BUTT_RIGHT_PIN) == 1) {
     Serial.println("1!");
-    digitalWrite(LED_PIN, HIGH); 
-    printButton(1);
-    activeButton = 1;
+    butRightActive = true;
+  } else {
+    butRightActive = false;
   }
   
   if (digitalRead(BUTT_LEFT_PIN) == 1) {
     Serial.println("2!");
-    digitalWrite(LED_PIN, LOW); 
-    printButton(2);
-    activeButton = 2;
+    butLeftActive = true;
+  } else {
+    butLeftActive = false;
   }
   
   if (digitalRead(BUTT_VALID_PIN) == 1) {
-    printButton(3);
     Serial.println("3!");
-    activeButton = 3;
+    butMenuActive = true;
+  } else {
+    butMenuActive = false;
   }
-  
-  loopWifi();
 }
-
-

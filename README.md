@@ -73,3 +73,26 @@ The program must be able to manage :
 * And the most important : a Web client to control other devices / robots
 
 All features are splited in dedicated files. I use very basic arduino code style for now, but I will improve that later, as it is possible to build more advanced code with ESP8266 than with classical arduino AtMega MCUs. 
+
+### Menus
+
+Features are organized in menus. It's interesting to build an UX with a very low level plateform like a MCU when you are used to build webpages or rich client applications using OS / VM based frameworks. Here you have nothing, and you have to think on how to manage "common features" versus "specific features".
+
+In screen functions I have added so basic routines to add a line of text, a page header or to display the meaning of the buttons. 
+
+### Using the SD card files for config
+
+Some configuration files will be managed from the SD card :
+* Details on wifi to connect with
+* a file similar to /etc/hosts for name based specification of the devices to drive
+
+In a futur version :
+* Organization of piloted device features
+
+### Included server
+
+Created on demand ?
+
+### Basic client
+
+Creating the client at launch vs on demand ?
