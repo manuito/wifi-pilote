@@ -46,6 +46,11 @@ bool butMenuActive = false;
 bool butLeftActive = false;
 bool butRightActive = false;
 
+// Previous states for change detect
+bool prevButMenuActive = false;
+bool prevButLeftActive = false;
+bool prevButRightActive = false;
+
 void setup(void) {
   Serial.begin(9600);
 
@@ -82,22 +87,24 @@ void loop() {
 }
 
 void controlButtons(){ 
+  
+  prevButMenuActive = butMenuActive;
+  prevButLeftActive = butLeftActive;
+  prevButRightActive = butRightActive;
+
   if (digitalRead(BUTT_RIGHT_PIN) == 1) {
-    Serial.println("1!");
     butRightActive = true;
   } else {
     butRightActive = false;
   }
   
   if (digitalRead(BUTT_LEFT_PIN) == 1) {
-    Serial.println("2!");
     butLeftActive = true;
   } else {
     butLeftActive = false;
   }
   
   if (digitalRead(BUTT_VALID_PIN) == 1) {
-    Serial.println("3!");
     butMenuActive = true;
   } else {
     butMenuActive = false;

@@ -1,6 +1,7 @@
 int curPage = 0;
 int curSelection = 0;
 bool changed = true;
+String miniRobot = "192.168.0.19";
 
 void processPages(){
    switch (curPage) {
@@ -194,7 +195,7 @@ void processBigRobotPage(){
         Serial.println("GO");
       } else if(butLeftActive){
         Serial.println("LEFT");
-      } if(butRightActive){
+      } else if(butRightActive){
         Serial.println("RIGHT");
       }
     }
@@ -217,14 +218,25 @@ void processSmallRobotPage(){
     delay(30);
   } else {
     if(butLeftActive && butRightActive){
+      callClient(miniRobot, "G=0");
       goToPage(9); // SmallRobotMenu
     } else {
       if(butMenuActive){
-        Serial.println("GO");
-      } else if(butLeftActive){
-        Serial.println("LEFT");
-      } if(butRightActive){
-        Serial.println("RIGHT");
+        callClient(miniRobot, "G=1");
+      } else if(prevButMenuActive) {
+        callClient(miniRobot, "G=0");
+      }
+      
+      if(butLeftActive){
+        callClient(miniRobot, "TL=1");
+      } else if(prevButLeftActive) {
+        callClient(miniRobot, "TL=0");
+      }
+      
+      if(butRightActive){
+        callClient(miniRobot, "TR=1");
+      } else if(prevButRightActive) {
+        callClient(miniRobot, "TR=0");
       }
     }
   }
@@ -316,13 +328,43 @@ void processSmallRobotMenuPage(){
     if(butMenuActive){
       goToPage(6); // SmallRobot pilote
     } else if(butLeftActive){
-      if(curSelection == 6){
-        goToPage(0); // Home
+      switch (curSelection) {
+        case 0:
+          callClient(miniRobot,"L=0");
+          break;
+        case 1:
+          callClient(miniRobot,"L=1");
+          break;
+        case 2:
+          callClient(miniRobot,"L=2");
+          break;
+        case 3:
+          callClient(miniRobot,"L=3");
+          break;
+        case 4:
+          callClient(miniRobot,"L=4");
+          break;
+        case 5:
+          callClient(miniRobot,"L=5");
+          break;
+        case 6:
+          callClient(miniRobot, "B=1");
+          delay(2000);
+          callClient(miniRobot, "B=0");
+          break;
+        case 7:
+          callClient(miniRobot, "BR=1");
+          break;
+        case 8:
+          goToPage(0); // Home
+          break;
+        default:
+          break;
       }
       Serial.print("Action ");
       Serial.println(curSelection);
     }else if(butRightActive){
-      if(curSelection == 4){
+      if(curSelection == 8){
         curSelection = 0;
       } else {
         curSelection++;
@@ -340,11 +382,13 @@ void displaySmallRobotMenuPage(){
 }
 
 void displaySmallRobotMenuSelect(){
-  if(curSelection == 0 || curSelection == 1){ printSelectLine(2, "1. Light 1", curSelection == 0);}
-  if(curSelection == 0 || curSelection == 1 || curSelection == 2){ printSelectLine(3, "2. Light 2", curSelection == 1);}
-  if(curSelection == 0 || curSelection == 2 || curSelection == 3){ printSelectLine(4, "3. Light 3", curSelection == 2);}
-  if(curSelection == 0 || curSelection == 3 || curSelection == 4){ printSelectLine(5, "4. Light 4", curSelection == 3);}
-  if(curSelection == 0 || curSelection == 4 || curSelection == 5){ printSelectLine(6, "5. Light 5", curSelection == 4);}
-  if(curSelection == 0 || curSelection == 5 || curSelection == 6){ printSelectLine(7, "6. Robot Settings", curSelection == 5);}
-  if(curSelection == 6 || curSelection == 0){ printSelectLine(8, "7. Quit", curSelection == 6);}
+  if(curSelection == 0 || curSelection == 1){ printSelectLine(2, "1. Stop Lights", curSelection == 0);}
+  if(curSelection == 0 || curSelection == 1 || curSelection == 2){ printSelectLine(3, "2. Light 1 (Police)", curSelection == 1);}
+  if(curSelection == 0 || curSelection == 2 || curSelection == 3){ printSelectLine(4, "3. Light 2 (K2000)", curSelection == 2);}
+  if(curSelection == 0 || curSelection == 3 || curSelection == 4){ printSelectLine(5, "4. Light 3 (Headlight)", curSelection == 3);}
+  if(curSelection == 0 || curSelection == 4 || curSelection == 5){ printSelectLine(6, "5. Light 4 (Christmas)", curSelection == 4);}
+  if(curSelection == 0 || curSelection == 5 || curSelection == 6){ printSelectLine(7, "6. Light 5 (Fadding yellow)", curSelection == 5);}
+  if(curSelection == 0 || curSelection == 6 || curSelection == 7){ printSelectLine(8, "7. Go back 2 seconds", curSelection == 6);}
+  if(curSelection == 0 || curSelection == 7 || curSelection == 8){ printSelectLine(9, "8. Do a Barrel Roll", curSelection == 7);}
+  if(curSelection == 8 || curSelection == 0){ printSelectLine(10, "9. Quit", curSelection == 8);}
 }

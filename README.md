@@ -80,6 +80,24 @@ Features are organized in menus. It's interesting to build an UX with a very low
 
 In screen functions I have added so basic routines to add a line of text, a page header or to display the meaning of the buttons. 
 
+Here the navigation in menu pages with first proto (all items are working : the small robot can be controled with the remote)
+
+Home page :
+
+![Home page](docs/menu1.png?raw=true "Home page")
+
+Top menu :
+
+![Top menu](docs/menu2.png?raw=true "Top menu")
+
+A robot driving screen (can go straigh, turn left or right. Press left + right for sub menu) :
+
+![Pilote](docs/menu3.png?raw=true "Pilote")
+
+Sub menu for small-robot features (see project [robot-small](https://github.com/manuito/robot-small)) :
+
+![Sub menu](docs/menu4.png?raw=true "Sub menu")
+
 ### Using the SD card files for config
 
 Some configuration files will be managed from the SD card :
