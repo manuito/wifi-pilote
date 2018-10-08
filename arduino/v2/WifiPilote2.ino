@@ -25,8 +25,8 @@ Adafruit_SSD1306 display(OLED_RESET);
 long actionMillis = 0;
 long nextActionMillis = 0;
 
-const char *ssid = "NONO VIFI";
-const char *password = "elephant15wif";
+const char *ssid = "xxxxx";
+const char *password = "xxxxx";
 
 ESP8266WebServer server(80);
 
