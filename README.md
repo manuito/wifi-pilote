@@ -8,6 +8,16 @@ Here the things I can do with this remote :
 * Driving other robots (TODO)
 * ????
 
+I have created, for now, two versions of the remote, and will create others : 
+
+* v1 : NodeMCU, big TFT screen, custom board, AA batteries
+* v2 : D1 Mini Lite, small Wemos D1 Mini OLED Screen, using tindi / standard boards, Lipo battery, home made box
+* (not yet done) v3 : Probably with a custom made PCB, ESP8266, Oled screen. 
+
+On this project you will find details on the building process and code for each revisions
+
+# Revision 1
+
 ## The device
 
 The remote is based on **NodeMCU** (ESP8266). A very good NodeMCU clone is the one from RobotDyn (see). 
@@ -114,3 +124,26 @@ Created on demand ?
 ### Basic client
 
 Creating the client at launch vs on demand ?
+
+# Revision 2
+
+The new revision is smaller, lighter, and more "children proof". I use only standard D1 mini boards + 1 board from Tindie. 
+See My Hackaday page for more details
+
+Component view :
+
+![Inside view](docs/proto_2_inside.png?raw=true "Inside view")
+
+Code is simpler than in 1st revision. As the screen is much smaller, I have replaced menus by more graphical stuff, including animation. And this time I have made a box (from a standard project box)
+
+Boxed view :
+
+![Boxed view](docs/proto_2_on.png?raw=true "Boxed view")
+
+
+I will improve the code later. For now it can drive "mini robot" only.
+
+Using it :
+
+![Using view](docs/proto_2_using.png?raw=true "Using view")
+
